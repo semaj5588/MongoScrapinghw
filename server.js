@@ -39,14 +39,18 @@ app.get('/', function(req, res) {
 app.get('/scrape', function(req, res) {
   request('http://www.reddit.com/r/nba/', function(error, response, html) {
     var $ = cheerio.load(html);
-    $('article h2').each(function(i, element) {
+    $('a.title').each(function(i, element) {
 
 				var result = {};
 
-				result.title = $(this).children('a').text();
-				result.link = $(this).children('a').attr('href');
+				result.title = $(this)
+				result.link = $(this)
+				// result.title = $(this).children('a').text();
+				// result.link = $(this).children('a').attr('href');
 
 				var entry = new Article (result);
+
+				console.log(result);
 
 				entry.save(function(err, doc) {
 				  if (err) {
@@ -114,6 +118,6 @@ app.post('/articles/:id', function(req, res){
 
 
 
-app.listen(3006, function() {
-  console.log('App running on port 3006!');
+app.listen(3005, function() {
+  console.log('App running on port 3005!');
 });
